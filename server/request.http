@@ -1,0 +1,20 @@
+@hostname = localhost
+@port = 8080
+@host = {{hostname}}:{{port}}
+
+###
+GET http://{{host}}/api/content/:id
+
+###
+GET http://{{host}}/api/content/all
+
+###
+POST http://{{host}}/api/content
+content-type: application/json
+
+###
+PATCH  http://{{host}}/api/content/:id
+content-type: application/json
+
+###
+DELETE http://{{host}}/api/content/:id
