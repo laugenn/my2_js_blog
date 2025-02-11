@@ -11,6 +11,13 @@ export enum FrontMessages {
   OK_UPLOAD_FILE_INFO = "PNG, JPG, JPEG形式で1MBまでのファイルのみアップロード可能です。",
   NO_VALUE_CONTENT_TYPE = "コンテンツタイプに登録できない値が選択されています。",
 
+  PASS_REGEX_MESSAGE = "英字,数字,記号(._!+^&)を組み合わせた12~16文字で入力してください。",
+  PASS_REGEX_NO_SMALL_ALF = "パスワードに小文字英字が使用されていません。",
+  PASS_REGEX_NO_BIG_ALF = "パスワードに大文字英字が使用されていません。",
+  PASS_REGEX_NO_NUM = "パスワードに半角数字が使用されていません。",
+  PASS_REGEX_NO_SYMBOL = "パスワードに記号が使用されていません。",
+  PASS_MISMATCH = "パスワードと一致しません。",
+
   NOT_EXISTS_ID = "そのIDでは検索できませんでした",
   CONFIRM_DELETE = "削除しますか？",
   SUCCESS_DELETE = "削除完了しました。",

@@ -76,3 +76,34 @@
   margin-left: auto;
   display: inline-block;
 }
+
+.login-wrapper {
+  margin: 200px 400px;
+  padding: 50px;
+}
+
+.login-box {
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.login-input {
+  border-radius: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  width: 300px;
+}
+
+.login-error-message {
+  margin-left: 30px;
+  color: red;
+}
+
+.login-button {
+  margin-left: 180px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 20px;
+  cursor: pointer;
+}

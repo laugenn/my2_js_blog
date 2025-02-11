@@ -10,6 +10,7 @@ import "./index.css";
 import Edit from "./pages/Edit";
 import Form from "./pages/Form";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
 import ProductList from "./pages/ProductList";
 
@@ -60,6 +61,10 @@ const routes = [
             ],
           },
         ],
+      },
+      {
+        path: "/login",
+        element: <Login />,
       },
     ],
   },

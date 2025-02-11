@@ -215,3 +215,24 @@ const handleApiFinally = (
 ): void => {
   setIsLoading(false);
 };
+
+/**
+ * ログイン画面 ログイン失敗回数をカウントする
+ *
+ * @param {boolean} isValid useForm.formStatusよりバリデーションチェックの真偽値
+ * @returns {number} return.failedLoginCount ログイン失敗回数
+ * @returns {() => void} return.onClickLogin  ログインボタンのクリック発火イベント
+ */
+export const useLoginFailCounter = (isValid: boolean) => {
+  const [failedLoginCount, setFailedLoginCount] = useState<number>(0);
+
+  const onClickLogin = useCallback(() => {
+    // 失敗したら加算、成功したらリセット
+    if (!isValid) {
+      setFailedLoginCount((prev) => prev + 1);
+    } else {
+      setFailedLoginCount(0);
+    }
+  }, [isValid]);
+  return { failedLoginCount, onClickLogin };
+};
