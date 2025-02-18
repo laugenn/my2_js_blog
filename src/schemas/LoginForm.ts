@@ -6,7 +6,7 @@ const STR_MIN_LENGTH: number = 1;
 // ユーザー名：最大文字数
 const NAME_MAX_LENGTH: number = 10;
 // 最大文字数 エラーメッセージフォーマット
-const STR_MAX_LENGTH = (max: number) => `最大${max}文字までです`;
+const STR_MAX_LENGTH = (max: number) => `最大${max}文字までです。`;
 
 export const LoginFormSchema = z
   .object({
@@ -19,7 +19,7 @@ export const LoginFormSchema = z
       .string()
       .trim()
       .min(STR_MIN_LENGTH, FrontMessages.REQUIRED)
-      .regex(/^[a-zA-Z0-9/._!/+/^&]{12,16}/, FrontMessages.PASS_REGEX_MESSAGE),
+      .regex(/^[a-zA-Z0-9/._!/+/^&]{12,16}$/, FrontMessages.PASS_REGEX_MESSAGE),
     confirmPassword: z
       .string()
       .trim()
