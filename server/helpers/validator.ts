@@ -2,10 +2,11 @@ import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
 import { ContentFormSchema } from "../../src/schemas/ContentForm";
+import { LoginFormSchema } from "../../src/schemas/LoginForm";
 import { ServerMessages } from "../enums/enum";
 
 /**
- * フロントのバリデーションを流用し再度入力チェックを行う
+ * フロントのバリデーションを流用し再度入力チェックを行う（コンテンツ追加）
  *  バリデーションに失敗した場合、エラーメッセージをセットし400エラーを返す
  *  バリデーションに成功した場合、req.bodyをバリデーション済みのデータで更新し、次の処理へ進む
  *
@@ -19,6 +20,30 @@ export const validationInputContent = (
   next: NextFunction,
 ): void => {
   const validationResult = ContentFormSchema.safeParse(req.body);
+  if (!validationResult.success) {
+    res.status(400).json({ errors: formatErrors(validationResult.error) });
+    return;
+  } else {
+    req.body = validationResult.data;
+    next();
+  }
+};
+
+/**
+ * フロントのバリデーションを流用し再度入力チェックを行う（ログイン）
+ *  バリデーションに失敗した場合、エラーメッセージをセットし400エラーを返す
+ *  バリデーションに成功した場合、req.bodyをバリデーション済みのデータで更新し、次の処理へ進む
+ *
+ * @param {Request} req - Requestオブジェクト
+ * @param {Response} res - Responseオブジェクト
+ * @param {NextFunction} next - NextFunction
+ */
+export const validationInputLogin = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): void => {
+  const validationResult = LoginFormSchema.safeParse(req.body);
   if (!validationResult.success) {
     res.status(400).json({ errors: formatErrors(validationResult.error) });
     return;

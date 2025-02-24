@@ -1,6 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
+import { loginApi } from "../apis/login";
 import Input from "../components/logins/Input";
 import SubmitButton from "../components/logins/SubmitButton";
 import { useLoginFailCounter } from "../hooks/useFormHandlers";
@@ -31,12 +33,20 @@ const Login: React.FC = () => {
   const { failedLoginCount, onClickLogin } = useLoginFailCounter(
     form.formState.isValid,
   );
+  const navigate = useNavigate();
 
   return (
     <div style={{ marginTop: "100px" }}>
       <form
         onSubmit={form.handleSubmit((data) => {
-          console.log(data);
+          loginApi
+            .post(data)
+            .then(() => {
+              navigate("/products/all");
+            })
+            .catch((error) => {
+              console.error(error);
+            });
         })}
       >
         <div className="login-wrapper">

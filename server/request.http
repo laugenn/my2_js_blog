@@ -18,3 +18,7 @@ content-type: application/json
 
 ###
 DELETE http://{{host}}/api/content/:id
+
+###
+POST http://{{host}}/api/login
+content-type: application/json
