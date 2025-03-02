@@ -21,4 +21,8 @@ export enum FrontMessages {
   NOT_EXISTS_ID = "そのIDでは検索できませんでした",
   CONFIRM_DELETE = "削除しますか？",
   SUCCESS_DELETE = "削除完了しました。",
+
+  USED_USERNAME = "既に使用されているユーザー名です。",
+  UNUSED_USERNAME = "登録可能なユーザー名です。",
+  FAILED_USERNAME_SEARCH = "ユーザー検索を失敗しました。",
 }

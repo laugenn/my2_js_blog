@@ -107,3 +107,20 @@
   border-radius: 20px;
   cursor: pointer;
 }
+
+.username-message {
+  font-weight: bold;
+  padding-left: 30px;
+}
+
+.username-message.success {
+  color: green;
+}
+
+.username-message.error {
+  color: red;
+}
+
+.username-message.warning {
+  color: orange;
+}

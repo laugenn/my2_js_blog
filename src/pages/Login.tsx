@@ -1,10 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 
 import { loginApi } from "../apis/login";
 import Input from "../components/logins/Input";
 import SubmitButton from "../components/logins/SubmitButton";
+import { FrontMessages } from "../enums/Enum";
 import { useLoginFailCounter } from "../hooks/useFormHandlers";
 import { LoginFormSchema } from "../schemas/LoginForm";
 
@@ -29,6 +32,40 @@ const Login: React.FC = () => {
       confirmPassword: "",
     },
   });
+  // ユーザー名重複させないために監視（1秒後発火）
+  const [debouncedUsername] = useDebounce(form.watch("userName"), 1000);
+  // API結果を保持するステート
+  const [unUsedNameMessage, setUnUsedNameMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | ""
+  >("");
+
+  useEffect(() => {
+    // ユーザー名が未入力の場合、処理終了
+    if (!debouncedUsername) {
+      setUnUsedNameMessage("");
+      setMessageType("");
+      return;
+    }
+
+    // 入力されたユーザー名をもとにチェックする
+    loginApi
+      .getByUserName(debouncedUsername)
+      .then((res) => {
+        const result: boolean = res.data.isData;
+        if (result) {
+          setUnUsedNameMessage(FrontMessages.USED_USERNAME);
+          setMessageType("warning");
+        } else {
+          setUnUsedNameMessage(FrontMessages.UNUSED_USERNAME);
+          setMessageType("success");
+        }
+      })
+      .catch(() => {
+        setUnUsedNameMessage(FrontMessages.FAILED_USERNAME_SEARCH);
+        setMessageType("error");
+      });
+  }, [debouncedUsername]);
 
   const { failedLoginCount, onClickLogin } = useLoginFailCounter(
     form.formState.isValid,
@@ -39,6 +76,9 @@ const Login: React.FC = () => {
     <div style={{ marginTop: "100px" }}>
       <form
         onSubmit={form.handleSubmit((data) => {
+          if (messageType != "success") {
+            return;
+          }
           loginApi
             .post(data)
             .then(() => {
@@ -58,6 +98,24 @@ const Login: React.FC = () => {
             register={form.register("userName")}
             errors={form.formState.errors.userName}
           />
+
+          {/* ユーザー検索後のメッセージ表示欄 */}
+          {unUsedNameMessage && (
+            <p
+              className={`username-message ${
+                messageType == "success"
+                  ? "success"
+                  : messageType == "error"
+                    ? "error"
+                    : messageType == "warning"
+                      ? "warning"
+                      : ""
+              }`}
+            >
+              {unUsedNameMessage}
+            </p>
+          )}
+
           <Input
             labelName="パスワード"
             type="password"
