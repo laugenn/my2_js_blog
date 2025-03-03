@@ -10,9 +10,10 @@ import "./index.css";
 import Edit from "./pages/Edit";
 import Form from "./pages/Form";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Page404 from "./pages/Page404";
 import ProductList from "./pages/ProductList";
+import SignIn from "./pages/SignIn";
+import SignUp from "./pages/SignUp";
 
 const routes = [
   {
@@ -64,7 +65,16 @@ const routes = [
       },
       {
         path: "/login",
-        element: <Login />,
+        children: [
+          {
+            path: "signup",
+            element: <SignUp />,
+          },
+          {
+            path: "signin",
+            element: <SignIn />,
+          },
+        ],
       },
     ],
   },

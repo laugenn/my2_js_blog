@@ -101,7 +101,8 @@
 }
 
 .login-button {
-  margin-left: 180px;
+  margin-left: 10px;
+  margin-right: 30px;
   background-color: #007bff;
   color: #fff;
   border-radius: 20px;
@@ -123,4 +124,36 @@
 
 .username-message.warning {
   color: orange;
+}
+
+.info-icon {
+  margin-left: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  left: 50%;
+  bottom: 120%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  white-space: nowrap;
+  display: none;
+}
+
+.info-icon:hover .tooltip {
+  display: block;
 }

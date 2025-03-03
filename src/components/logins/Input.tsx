@@ -22,6 +22,15 @@ interface InputLoginProps {
 const InputLogin: React.FC<InputLoginProps> = (props) => {
   return (
     <div className="login-box">
+      {props.labelName == "パスワード" && !props.errors?.message && (
+        <span className="info-icon">
+          ?
+          <span className="tooltip">
+            大文字小文字英字,数字,記号(._!+^&)を組み合わせてください
+          </span>
+        </span>
+      )}
+
       <label>{props.labelName}：</label>
       <input
         type={props.type}
@@ -29,12 +38,6 @@ const InputLogin: React.FC<InputLoginProps> = (props) => {
         className="login-input"
         {...props.register}
       />
-
-      {props.labelName == "パスワード" && !props.errors?.message && (
-        <p>
-          右記の文字を組み合わせてください：大文字小文字英字,数字,記号(._!+^&)
-        </p>
-      )}
 
       {props.errors?.message && (
         <p className="login-error-message">{props.errors?.message}</p>

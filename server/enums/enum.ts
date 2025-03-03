@@ -12,6 +12,8 @@ export enum ServerMessages {
   NO_DATA_GET_BY_ID = "主キー検索でヒットしませんでした。",
   UPDATE_NO_DATA = "更新対象が存在しませんでした。",
   DELETE_NO_DATA = "削除対象が存在しませんでした。",
+  NOT_FOUND_USER = "ユーザーが見つかりませんでした。",
+  UN_MATCH_PASSWORD = "パスワードが一致しませんでした。",
 
   //500
   INTERNAL_SERVER_ERROR = "サーバー内部エラーが発生しました。",

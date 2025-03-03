@@ -2,7 +2,10 @@ import { NextFunction, Request, Response } from "express";
 import { z } from "zod";
 
 import { ContentFormSchema } from "../../src/schemas/ContentForm";
-import { LoginFormSchema } from "../../src/schemas/LoginForm";
+import {
+  SignInFormSchema,
+  SignUpFormSchema,
+} from "../../src/schemas/LoginForm";
 import { ServerMessages } from "../enums/enum";
 
 /**
@@ -30,27 +33,24 @@ export const validationInputContent = (
 };
 
 /**
- * フロントのバリデーションを流用し再度入力チェックを行う（ログイン）
- *  バリデーションに失敗した場合、エラーメッセージをセットし400エラーを返す
- *  バリデーションに成功した場合、req.bodyをバリデーション済みのデータで更新し、次の処理へ進む
+ * フロントのバリデーションを流用し再度入力チェックを行う（ログイン&サインアップ）
+ * バリデーションに失敗した場合、エラーメッセージをセットし400エラーを返す
+ * バリデーションに成功した場合、req.body をバリデーション済みのデータで更新し、次の処理へ進む
  *
- * @param {Request} req - Requestオブジェクト
- * @param {Response} res - Responseオブジェクト
- * @param {NextFunction} next - NextFunction
+ * @param {string} type - signinまたはsignup
  */
-export const validationInputLogin = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void => {
-  const validationResult = LoginFormSchema.safeParse(req.body);
-  if (!validationResult.success) {
-    res.status(400).json({ errors: formatErrors(validationResult.error) });
-    return;
-  } else {
-    req.body = validationResult.data;
-    next();
-  }
+export const validationInputLogin = (type: "signin" | "signup") => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const schema = type === "signin" ? SignInFormSchema : SignUpFormSchema;
+    const validationResult = schema.safeParse(req.body);
+    if (!validationResult.success) {
+      res.status(400).json({ errors: formatErrors(validationResult.error) });
+      return;
+    } else {
+      req.body = validationResult.data;
+      next();
+    }
+  };
 };
 
 /**

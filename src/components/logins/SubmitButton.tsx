@@ -1,23 +1,24 @@
+import React from "react";
+
 interface SubmitButtonProps {
-  onClick: () => void;
+  title: string;
 }
 
 /**
  * ログイン画面 ログインボタン
  *
- * @param {Object} props: SubmitButtonProps
- * @param {() => void} props.onClick: クリックイベント
+ * @param {object} SubmitButtonProps
+ * @param {string} - SubmitButtonProps.title ボタン名
  * @returns {JSX.Element}
  */
-const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
+const SubmitButton: React.FC<SubmitButtonProps> = (prop) => {
   return (
     <>
       <button
         className="login-button"
-        onClick={props.onClick}
         type="submit"
       >
-        ログイン
+        {prop.title}
       </button>
     </>
   );

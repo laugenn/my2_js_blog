@@ -1,5 +1,6 @@
 import axios from "axios";
-import { InputLogin } from "../components/logins/Input";
+import { InputsSignIn } from "../pages/SignIn";
+import { InputsSignUp } from "../pages/SignUp";
 
 const URL = "http://localhost:8080/api/login";
 
@@ -10,9 +11,15 @@ export const loginApi = {
     return data;
   },
 
-  // 登録
-  async post(_input: InputLogin) {
-    const data = await axios.post(URL, _input);
+  // 新規登録
+  async postSignUp(_input: InputsSignUp) {
+    const data = await axios.post(URL + "/signup", _input);
+    return data;
+  },
+
+  // ログイン
+  async postSignIn(_input: InputsSignIn) {
+    const data = await axios.post(URL + "/signin", _input);
     return data;
   },
 };

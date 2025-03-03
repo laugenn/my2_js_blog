@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { LoginFormSchema } from "../../../src/schemas/LoginForm";
+import { SignUpFormSchema } from "../../../src/schemas/LoginForm";
 
 interface formInput {
   userName: string;
@@ -15,7 +15,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "aiueoaiue5!A", // 12桁
       confirmPassword: "aiueoaiue5!A",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(true);
   });
 
@@ -25,7 +25,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "",
       confirmPassword: "",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -65,7 +65,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "1234567890..AAaa!", // 17桁
       confirmPassword: "1234567890..AAaa!",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -85,7 +85,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "12345678aA.", // 11桁
       confirmPassword: "1234567890..AAaa!",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -105,7 +105,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "1234567890A.", // 12桁
       confirmPassword: "1234567890A.",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -123,7 +123,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "1234567890a.", // 12桁
       confirmPassword: "1234567890a.",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -141,7 +141,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "Abudefghij..", // 12桁
       confirmPassword: "Abudefghij..",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {
@@ -159,7 +159,7 @@ describe("ログイン画面の入力チェック", () => {
       password: "Aa1234567890", // 12桁
       confirmPassword: "Aa1234567890",
     };
-    const result = LoginFormSchema.safeParse(input);
+    const result = SignUpFormSchema.safeParse(input);
     expect(result.success).toBe(false);
 
     if (!result.success) {

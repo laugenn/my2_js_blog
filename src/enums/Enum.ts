@@ -25,4 +25,7 @@ export enum FrontMessages {
   USED_USERNAME = "既に使用されているユーザー名です。",
   UNUSED_USERNAME = "登録可能なユーザー名です。",
   FAILED_USERNAME_SEARCH = "ユーザー検索を失敗しました。",
+
+  FAILED_SIGNUP = "新規登録に失敗しました。",
+  FAILED_SIGNIN = "ログインに失敗しました。",
 }

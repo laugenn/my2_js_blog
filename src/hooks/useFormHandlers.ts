@@ -5,12 +5,18 @@ import {
   UseFormResetField,
   UseFormSetError,
   UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { useDebounce } from "use-debounce";
 
 import { contentApi } from "../apis/content";
+import { loginApi } from "../apis/login";
 import { useContentDispatch } from "../contexts/ContentProvider";
 import { ContentsProviderActions, FrontMessages } from "../enums/Enum";
 import { Inputs } from "../pages/Form";
+import { InputsSignIn } from "../pages/SignIn";
+import { InputsSignUp } from "../pages/SignUp";
 
 /**
  * 追加・更新画面で使用する画像プレビューと操作を管理するカスタムフック
@@ -217,22 +223,108 @@ const handleApiFinally = (
 };
 
 /**
- * ログイン画面 ログイン失敗回数をカウントする
+ * ログイン画面で「ログイン」ボタン押下時のカスタムフック
  *
- * @param {boolean} isValid useForm.formStatusよりバリデーションチェックの真偽値
- * @returns {number} return.failedLoginCount ログイン失敗回数
- * @returns {() => void} return.onClickLogin  ログインボタンのクリック発火イベント
+ * @returns {number} return.failedLoginCount: ログイン失敗回数
+ * @returns {string} return.failedLoginMessage: ログイン失敗メッセージ
+ * @returns {(data: InputsSignIn) => Promise<void>} return.onSubmitSignIn: submit処理
+ *
  */
-export const useLoginFailCounter = (isValid: boolean) => {
+export const useSignInOnSubmit = () => {
+  // ログイン失敗回数をカウント
   const [failedLoginCount, setFailedLoginCount] = useState<number>(0);
+  const [failedLoginMessage, setFailedLoginMessage] = useState<string>("");
+  const navigate = useNavigate();
 
-  const onClickLogin = useCallback(() => {
-    // 失敗したら加算、成功したらリセット
-    if (!isValid) {
-      setFailedLoginCount((prev) => prev + 1);
-    } else {
-      setFailedLoginCount(0);
+  const onSubmitSignIn = async (data: InputsSignIn) => {
+    loginApi
+      .postSignIn(data)
+      .then(() => {
+        setFailedLoginCount(0);
+        navigate("/products/all");
+      })
+      .catch((error) => {
+        setFailedLoginCount((prev) => prev + 1);
+        if (error.status == 404) {
+          setFailedLoginMessage(error.response.data.message);
+        } else {
+          alert(FrontMessages.FAILED_SIGNIN);
+        }
+        console.error(error);
+      });
+  };
+
+  return {
+    failedLoginCount,
+    failedLoginMessage,
+    onSubmitSignIn,
+  };
+};
+
+/**
+ * 新規登録画面カスタムフック
+ * @param {UseFormWatch<InputsSignUp>} watch useFormの戻り値
+ *
+ * @returns {string} return.unUsedNameMessage: API実行時の結果メッセージ
+ * @returns {"" | "success" | "error" | "warning"} return.messageType: API実行時の結果メッセージタイプ
+ * @returns {(data: InputsSignUp) => Promise<void>} return.onSubmitSignUp: submit処理
+ *
+ */
+export const useSignUp = (watch: UseFormWatch<InputsSignUp>) => {
+  // ユーザー名重複させないために監視（1秒後発火）
+  const [debouncedUsername] = useDebounce(watch("userName"), 1000);
+  // API結果を保持するステート
+  const [unUsedNameMessage, setUnUsedNameMessage] = useState<string>("");
+  const [messageType, setMessageType] = useState<
+    "success" | "error" | "warning" | ""
+  >("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // ユーザー名が未入力の場合、処理終了
+    if (!debouncedUsername) {
+      setUnUsedNameMessage("");
+      setMessageType("");
+      return;
     }
-  }, [isValid]);
-  return { failedLoginCount, onClickLogin };
+
+    // 入力されたユーザー名をもとにチェックする
+    loginApi
+      .getByUserName(debouncedUsername)
+      .then((res) => {
+        const result: boolean = res.data.isData;
+        if (result) {
+          setUnUsedNameMessage(FrontMessages.USED_USERNAME);
+          setMessageType("warning");
+        } else {
+          setUnUsedNameMessage(FrontMessages.UNUSED_USERNAME);
+          setMessageType("success");
+        }
+      })
+      .catch(() => {
+        setUnUsedNameMessage(FrontMessages.FAILED_USERNAME_SEARCH);
+        setMessageType("error");
+      });
+  }, [debouncedUsername]);
+
+  const onSubmitSignUp = async (data: InputsSignUp) => {
+    if (messageType != "success") {
+      return;
+    }
+    loginApi
+      .postSignUp(data)
+      .then(() => {
+        navigate("/products/all");
+      })
+      .catch((error) => {
+        alert(FrontMessages.FAILED_SIGNUP);
+        console.error(error);
+      });
+  };
+
+  return {
+    unUsedNameMessage,
+    messageType,
+    onSubmitSignUp,
+  };
 };
