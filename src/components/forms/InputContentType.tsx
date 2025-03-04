@@ -1,4 +1,6 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import React from "react";
+
 import { Inputs } from "../../pages/Form";
 
 interface InputContentTypeProps {

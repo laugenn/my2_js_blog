@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 import { ContentModelInterface } from "../../../server/models/content";
 import { contentApi } from "../../apis/content";
