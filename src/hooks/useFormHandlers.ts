@@ -14,6 +14,7 @@ import { contentApi } from "../apis/content";
 import { loginApi } from "../apis/login";
 import { useContentDispatch } from "../contexts/ContentProvider";
 import { ContentsProviderActions, FrontMessages } from "../enums/Enum";
+import { InputsEditProfile } from "../pages/EditProfile";
 import { Inputs } from "../pages/Form";
 import { InputsSignIn } from "../pages/SignIn";
 import { InputsSignUp } from "../pages/SignUp";
@@ -326,5 +327,39 @@ export const useSignUp = (watch: UseFormWatch<InputsSignUp>) => {
     unUsedNameMessage,
     messageType,
     onSubmitSignUp,
+  };
+};
+
+/**
+ * パスワード登録画面カスタムフック
+ *
+ * @returns {string} return.errorMessage: API実行時の結果メッセージ
+ * @returns {(data: InputsEditProfile) => Promise<void>} return.onSubmitRePassword: submit処理
+ *
+ */
+export const useRePassword = () => {
+  // API結果を保持するステート
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const navigate = useNavigate();
+
+  const onSubmitRePassword = async (data: InputsEditProfile) => {
+    loginApi
+      .postRePass(data)
+      .then(() => {
+        alert(FrontMessages.SUCCESS_RE_PASSWORD);
+        navigate("/products/all");
+      })
+      .catch((error) => {
+        if (error.status == 404) {
+          setErrorMessage(error.response.data.message);
+        } else {
+          alert(FrontMessages.FAILED_RE_PASSWORD);
+        }
+      });
+  };
+
+  return {
+    errorMessage,
+    onSubmitRePassword,
   };
 };

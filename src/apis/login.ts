@@ -1,4 +1,5 @@
 import axios from "axios";
+import { InputsEditProfile } from "../pages/EditProfile";
 import { InputsSignIn } from "../pages/SignIn";
 import { InputsSignUp } from "../pages/SignUp";
 
@@ -20,6 +21,12 @@ export const loginApi = {
   // ログイン
   async postSignIn(_input: InputsSignIn) {
     const data = await axios.post(URL + "/signin", _input);
+    return data;
+  },
+
+  // パスワード変更
+  async postRePass(_input: InputsEditProfile) {
+    const data = await axios.post(URL + "/repass", _input);
     return data;
   },
 };

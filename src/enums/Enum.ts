@@ -17,10 +17,12 @@ export enum FrontMessages {
   PASS_REGEX_NO_NUM = "パスワードに半角数字が使用されていません。",
   PASS_REGEX_NO_SYMBOL = "パスワードに記号が使用されていません。",
   PASS_MISMATCH = "パスワードと一致しません。",
+  NO_CHANGE_PASS = "前回パスワードと変わりがありません。",
 
   NOT_EXISTS_ID = "そのIDでは検索できませんでした",
   CONFIRM_DELETE = "削除しますか？",
   SUCCESS_DELETE = "削除完了しました。",
+  SUCCESS_RE_PASSWORD = "パスワードの更新完了しました。",
 
   USED_USERNAME = "既に使用されているユーザー名です。",
   UNUSED_USERNAME = "登録可能なユーザー名です。",
@@ -28,4 +30,5 @@ export enum FrontMessages {
 
   FAILED_SIGNUP = "新規登録に失敗しました。",
   FAILED_SIGNIN = "ログインに失敗しました。",
+  FAILED_RE_PASSWORD = "パスワードの更新に失敗しました。",
 }

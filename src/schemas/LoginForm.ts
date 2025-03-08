@@ -117,3 +117,71 @@ export const SignUpFormSchema = commonLoginFormSchema
       });
     }
   });
+
+// パスワード変更バリデーション
+export const rePasswordFormSchema = commonLoginFormSchema
+  .extend({
+    rePassword: z
+      .string()
+      .trim()
+      .min(STR_MIN_LENGTH, FrontMessages.REQUIRED)
+      .regex(/^[a-zA-Z0-9/._!/+/^&]{12,16}$/, FrontMessages.PASS_REGEX_MESSAGE),
+    confirmPassword: z
+      .string()
+      .trim()
+      .min(STR_MIN_LENGTH, FrontMessages.REQUIRED),
+  })
+  .superRefine(({ userName, password, rePassword, confirmPassword }, ctx) => {
+    if (password == rePassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.NO_CHANGE_PASS,
+        path: ["password"],
+      });
+    }
+
+    // 小文字アルファベットが含まれているかチェックする
+    if (rePassword.search(/[a-z]/) == -1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.PASS_REGEX_NO_SMALL_ALF,
+        path: ["rePassword"],
+      });
+    }
+
+    // 大文字アルファベットが含まれているかチェックする
+    if (rePassword.search(/[A-Z]/) == -1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.PASS_REGEX_NO_BIG_ALF,
+        path: ["rePassword"],
+      });
+    }
+
+    // 数字が含まれているかチェックする
+    if (rePassword.search(/[0-9]/) == -1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.PASS_REGEX_NO_NUM,
+        path: ["rePassword"],
+      });
+    }
+
+    // 記号が含まれているかチェックする
+    if (rePassword.search(/[/._!/+/^&]/) == -1) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.PASS_REGEX_NO_SYMBOL,
+        path: ["rePassword"],
+      });
+    }
+
+    // パスワードと確認用パスワードが一致しているかチェックする
+    if (rePassword != confirmPassword) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: FrontMessages.PASS_MISMATCH,
+        path: ["confirmPassword"],
+      });
+    }
+  });

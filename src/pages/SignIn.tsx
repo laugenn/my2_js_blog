@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 import Input from "../components/logins/Input";
 import SubmitButton from "../components/logins/SubmitButton";
@@ -65,6 +66,7 @@ const SignIn: React.FC = () => {
           {failedLoginCount < 5 ? (
             <>
               <SubmitButton title="ログイン" />
+              <Link to={"/login/account"}>アカウント情報の変更</Link>
             </>
           ) : (
             <p>5回連続で失敗しましたので画面を閉じてください</p>

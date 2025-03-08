@@ -115,3 +115,47 @@ export const signInUser = async (req: Request, res: Response) => {
 
   res.status(200).send();
 };
+
+/**
+ * パスワード変更処理
+ *
+ * @route POST /api/login/repass
+ * @param {Request} req - リクエストオブジェクト
+ * @param {Response} res - レスポンスオブジェクト
+ * @returns {Promise<void>} 結果を返却
+ *
+ * @description
+ *  ユーザー検索でヒットしなかった場合は404エラーで返す
+ *  パスワードが一致しなかった場合は404エラーを返す
+ *
+ * @remark
+ *  requestErrorHandlerでエラーハンドリングを行っているためtry-catchは不要
+ */
+export const updatePassword = async (req: Request, res: Response) => {
+  // 入力情報を取得
+  const inputData = req.body;
+
+  // 更新するユーザーが存在するか
+  const loginUserName = sanitizeSpecialChars(inputData.userName);
+  const userData = await UserModel.findOne({ userName: loginUserName });
+
+  if (!userData) {
+    res.status(404).json({ message: ServerMessages.NOT_FOUND_USER });
+    return;
+  }
+
+  // 入力・登録したパスワードが一致するか
+  const isMatch = await isMatchPassword(userData.password, inputData.password);
+  if (!isMatch) {
+    res.status(404).json({ message: ServerMessages.UN_MATCH_PASSWORD });
+    return;
+  }
+
+  // 更新処理
+  const hashRePassword: string = await argon2.hash(inputData.rePassword);
+  await UserModel.updateOne(
+    { userName: userData.userName },
+    { $set: { password: hashRePassword, confirmPassword: hashRePassword } },
+  );
+  res.status(200).send();
+};

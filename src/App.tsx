@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import { ContextProvider } from "./contexts/ContentProvider";
 import "./index.css";
 import Edit from "./pages/Edit";
+import EditProfile from "./pages/EditProfile";
 import Form from "./pages/Form";
 import Home from "./pages/Home";
 import Page404 from "./pages/Page404";
@@ -73,6 +74,10 @@ const routes = [
           {
             path: "signin",
             element: <SignIn />,
+          },
+          {
+            path: "account",
+            element: <EditProfile />,
           },
         ],
       },

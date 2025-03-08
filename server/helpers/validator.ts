@@ -5,6 +5,7 @@ import { ContentFormSchema } from "../../src/schemas/ContentForm";
 import {
   SignInFormSchema,
   SignUpFormSchema,
+  rePasswordFormSchema,
 } from "../../src/schemas/LoginForm";
 import { ServerMessages } from "../enums/enum";
 
@@ -33,15 +34,23 @@ export const validationInputContent = (
 };
 
 /**
- * フロントのバリデーションを流用し再度入力チェックを行う（ログイン&サインアップ）
+ * フロントのバリデーションを流用し再度入力チェックを行う（ログイン&サインアップ&パスワード変更）
  * バリデーションに失敗した場合、エラーメッセージをセットし400エラーを返す
  * バリデーションに成功した場合、req.body をバリデーション済みのデータで更新し、次の処理へ進む
  *
- * @param {string} type - signinまたはsignup
+ * @param {string} type - signinまたはsignupまたはrepass
  */
-export const validationInputLogin = (type: "signin" | "signup") => {
+export const validationInputLogin = (type: "signin" | "signup" | "repass") => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const schema = type === "signin" ? SignInFormSchema : SignUpFormSchema;
+    let schema;
+    if (type == "signin") {
+      schema = SignInFormSchema;
+    } else if (type == "signup") {
+      schema = SignUpFormSchema;
+    } else {
+      schema = rePasswordFormSchema;
+    }
+
     const validationResult = schema.safeParse(req.body);
     if (!validationResult.success) {
       res.status(400).json({ errors: formatErrors(validationResult.error) });

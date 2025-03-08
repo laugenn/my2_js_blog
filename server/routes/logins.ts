@@ -4,6 +4,7 @@ import {
   isUnusedUserName,
   registerUser,
   signInUser,
+  updatePassword,
 } from "../controllers/logins";
 import { requestErrorHandler } from "../helpers/errorHandler";
 import { validationInputLogin } from "../helpers/validator";
@@ -24,6 +25,13 @@ loginRoutes.post(
   "/signin",
   validationInputLogin("signin"),
   requestErrorHandler(signInUser),
+);
+
+// パスワード変更
+loginRoutes.post(
+  "/repass",
+  validationInputLogin("repass"),
+  requestErrorHandler(updatePassword),
 );
 
 export default loginRoutes;
