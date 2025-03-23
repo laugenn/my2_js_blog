@@ -1,5 +1,7 @@
 import cors from "cors";
+import dotenv from "dotenv";
 import express, { NextFunction, Request, Response } from "express";
+import session from "express-session";
 
 import { ServerMessages } from "./enums/enum";
 import "./helpers/dbconnect";
@@ -11,11 +13,34 @@ interface CustomError extends Error {
 
 const app = express();
 const port = 8080;
+dotenv.config();
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET!,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false,
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60,
+    },
+  }),
+);
+
 app.use(
   cors({
     origin: "http://localhost:5173",
+    credentials: true,
   }),
 );
+
+declare module "express-session" {
+  interface SessionData {
+    userName?: string;
+  }
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

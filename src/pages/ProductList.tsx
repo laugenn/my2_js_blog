@@ -1,16 +1,18 @@
 import Grid from "@mui/material/Grid2";
-import React from "react";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { ContentModelInterface } from "../../server/models/content";
 import ProductCard from "../components/products/ProductCard";
 import { useContent } from "../contexts/ContentProvider";
+import { useSessionLoginCheck } from "../hooks/useFormHandlers";
 
 /**
  * サイドバーの「一覧」を押下した際に表示する画面
  * @returns {JSX.Element}
  */
 const ProductList: React.FC = () => {
+  // ログイン認可チェック
+  useSessionLoginCheck();
   // タイトル検索用
   const [inputSearchWord, setInputSearchWord] = useState<string>("");
   // レンダーが初回かどうか

@@ -1,8 +1,12 @@
 import { Box, Drawer, List } from "@mui/material";
+import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
 import Toolbar from "@mui/material/Toolbar";
+
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import { loginApi } from "../apis/login";
 
 /**
  * 画面サイドバー
@@ -15,6 +19,18 @@ const SideBar: React.FC = () => {
     { id: "all", path: "/products/all", name: "投稿一覧" },
     { id: "add", path: "/products/add", name: "追加" },
   ];
+
+  const navigate = useNavigate();
+  const handleLogoutClick = () => {
+    loginApi
+      .destroySession()
+      .then(() => {
+        navigate("/login/signin");
+      })
+      .catch(() => {
+        navigate("/login/signin");
+      });
+  };
 
   return (
     <Drawer
@@ -41,6 +57,12 @@ const SideBar: React.FC = () => {
             </ListItem>
           ))}
         </List>
+        <Button
+          color="inherit"
+          onClick={handleLogoutClick}
+        >
+          ログアウト
+        </Button>
       </Box>
     </Drawer>
   );

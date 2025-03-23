@@ -9,7 +9,11 @@ import {
   InputContentType,
   SubmitButton,
 } from "../components/forms/Index";
-import { useFormHandlers, useOnSubmit } from "../hooks/useFormHandlers";
+import {
+  useFormHandlers,
+  useOnSubmit,
+  useSessionLoginCheck,
+} from "../hooks/useFormHandlers";
 import { ContentFormSchema } from "../schemas/contentForm";
 
 export interface Inputs {
@@ -29,6 +33,8 @@ export interface Inputs {
  * @returns {JSX.Element}
  */
 const Form: React.FC = () => {
+  // ログイン認可チェック
+  useSessionLoginCheck();
   // useFormの設定
   const {
     register,

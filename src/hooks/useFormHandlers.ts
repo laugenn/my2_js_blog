@@ -363,3 +363,24 @@ export const useRePassword = () => {
     onSubmitRePassword,
   };
 };
+
+/**
+ * ログイン情報がセッションに格納されているか
+ * ログインしていない場合、ログイン画面へ
+ *
+ */
+export const useSessionLoginCheck = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    loginApi
+      .getSession()
+      .then((response) => {
+        if (!response.data.isAuthenticated) {
+          navigate("/login/signin");
+        }
+      })
+      .catch(() => {
+        navigate("/login/signin");
+      });
+  }, []);
+};

@@ -12,21 +12,43 @@ export const loginApi = {
     return data;
   },
 
+  // セッション情報を取得
+  async getSession() {
+    const data = await axios.get(URL + "/session", {
+      withCredentials: true,
+    });
+    return data;
+  },
+
   // 新規登録
   async postSignUp(_input: InputsSignUp) {
-    const data = await axios.post(URL + "/signup", _input);
+    const data = await axios.post(URL + "/signup", _input, {
+      withCredentials: true,
+    });
     return data;
   },
 
   // ログイン
   async postSignIn(_input: InputsSignIn) {
-    const data = await axios.post(URL + "/signin", _input);
+    const data = await axios.post(URL + "/signin", _input, {
+      withCredentials: true,
+    });
     return data;
   },
 
   // パスワード変更
   async postRePass(_input: InputsEditProfile) {
-    const data = await axios.post(URL + "/repass", _input);
+    const data = await axios.post(URL + "/repass", _input, {
+      withCredentials: true,
+    });
+    return data;
+  },
+
+  // ログアウト
+  async destroySession() {
+    const data = await axios.post(URL + "/logout", {
+      withCredentials: true,
+    });
     return data;
   },
 };

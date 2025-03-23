@@ -34,6 +34,49 @@ export const isUnusedUserName = async (req: Request, res: Response) => {
 };
 
 /**
+ * ログイン済みかどうかを確認する
+ *
+ * @route GET /api/login/session
+ * @param {Request} req - リクエストオブジェクト
+ * @param {Response} res - レスポンスオブジェクト
+ * @returns {Promise<void>} 認可結果
+ *
+ * @remark
+ *  requestErrorHandlerでエラーハンドリングを行っているためtry-catchは不要
+ */
+export const getSessionLoginData = async (req: Request, res: Response) => {
+  if (req.session && req.session.userName) {
+    res
+      .status(200)
+      .json({ isAuthenticated: true, userName: req.session.userName });
+    return;
+  }
+  res.status(401).json({ isAuthenticated: false });
+};
+
+/**
+ * ログアウト処理
+ *
+ * @route POST /api/login/logout
+ * @param {Request} req - リクエストオブジェクト
+ * @param {Response} res - レスポンスオブジェクト
+ * @returns {Promise<void>}
+ *
+ * @remark
+ *  requestErrorHandlerでエラーハンドリングを行っているためtry-catchは不要
+ */
+export const destroySessionLoginData = async (req: Request, res: Response) => {
+  req.session.destroy((error) => {
+    if (error) {
+      res.status(500).json({ message: "ログアウトに失敗しました" });
+      return;
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).json({ message: "ログアウトしました" });
+  });
+};
+
+/**
  * 新規ユーザー登録処理
  *
  * @route POST /api/login/signup
@@ -54,7 +97,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
   // 登録処理
   await loginUser.save();
-  res.status(200).send();
+  req.session.userName = loginUser.userName;
+  req.session.save(() => {
+    res.status(200).send();
+  });
 };
 
 /**
@@ -112,8 +158,10 @@ export const signInUser = async (req: Request, res: Response) => {
     res.status(404).json({ message: ServerMessages.UN_MATCH_PASSWORD });
     return;
   }
-
-  res.status(200).send();
+  req.session.userName = userData.userName;
+  req.session.save(() => {
+    res.status(200).send();
+  });
 };
 
 /**
@@ -157,5 +205,8 @@ export const updatePassword = async (req: Request, res: Response) => {
     { userName: userData.userName },
     { $set: { password: hashRePassword, confirmPassword: hashRePassword } },
   );
-  res.status(200).send();
+  req.session.userName = userData.userName;
+  req.session.save(() => {
+    res.status(200).send();
+  });
 };
