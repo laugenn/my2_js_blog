@@ -15,17 +15,35 @@
 
 #root {
   width: 100%;
-  height: 1200px;
 }
 
-.main {
-  width: 90%;
-  min-height: 800px;
+.header {
+  padding: 1rem;
+  background-color: #f0f0f0;
+}
+
+.footer {
+  padding: 1rem;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.content-container {
+  flex: 1;
+  padding: 1rem;
+}
+
+.sidebar {
+  padding: 1rem;
+  background-color: #fafafa;
+}
+
+.position-center {
+  text-align: center;
 }
 
 .form {
-  margin-top: 100px;
-  height: 100vh;
+  padding: 1rem;
 }
 
 .success-message {
@@ -46,6 +64,8 @@
   transform: scale(3);
   transform-origin: 0% 15%;
   transition: transform 0.3s ease-in-out;
+  position: relative;
+  z-index: 9999;
 }
 .image-container img:hover {
   cursor: zoom-in;
@@ -77,14 +97,17 @@
   display: inline-block;
 }
 
-.login-wrapper {
-  margin: 100px 200px;
-  padding: 50px;
+.login {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
 }
 
 .login-box {
   padding: 15px;
   border-radius: 5px;
+  display: flex;
 }
 
 .login-input {
@@ -127,7 +150,7 @@
 }
 
 .info-icon {
-  margin-left: 8px;
+  margin-left: 5px;
   cursor: pointer;
   font-size: 16px;
   border: 1px solid #ccc;

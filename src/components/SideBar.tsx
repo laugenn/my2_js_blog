@@ -1,7 +1,6 @@
-import { Box, Drawer, List } from "@mui/material";
+import { List } from "@mui/material";
 import Button from "@mui/material/Button";
 import ListItem from "@mui/material/ListItem";
-import Toolbar from "@mui/material/Toolbar";
 
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,8 +12,6 @@ import { loginApi } from "../apis/login";
  * @returns {JSX.Element}
  */
 const SideBar: React.FC = () => {
-  // style情報
-  const drawerWidth: number = 150;
   const SideBarPathList = [
     { id: "all", path: "/products/all", name: "投稿一覧" },
     { id: "add", path: "/products/add", name: "追加" },
@@ -33,19 +30,8 @@ const SideBar: React.FC = () => {
   };
 
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
-          width: drawerWidth,
-          boxSizing: "border-box",
-        },
-      }}
-    >
-      <Toolbar />
-      <Box>
+    <aside className="sidebar">
+      <div style={{ width: "100px" }}>
         <List>
           {SideBarPathList.map((value) => (
             <ListItem
@@ -63,8 +49,8 @@ const SideBar: React.FC = () => {
         >
           ログアウト
         </Button>
-      </Box>
-    </Drawer>
+      </div>
+    </aside>
   );
 };
 

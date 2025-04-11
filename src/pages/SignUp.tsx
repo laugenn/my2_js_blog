@@ -35,13 +35,13 @@ const SignUp: React.FC = () => {
   );
 
   return (
-    <div style={{ marginTop: "100px" }}>
+    <div className="login">
       <form
         onSubmit={form.handleSubmit((data) => {
           onSubmitSignUp(data);
         })}
       >
-        <div className="login-wrapper">
+        <div className="position-center">
           <h2>新規登録</h2>
           <Input
             labelName="ユーザー名"

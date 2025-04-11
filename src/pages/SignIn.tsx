@@ -33,13 +33,13 @@ const SignIn: React.FC = () => {
     useSignInOnSubmit();
 
   return (
-    <div style={{ marginTop: "100px" }}>
+    <div className="login">
       <form
         onSubmit={form.handleSubmit((data) => {
           onSubmitSignIn(data);
         })}
       >
-        <div className="login-wrapper">
+        <div className="position-center">
           <h2>ログイン</h2>
           <Input
             labelName="ユーザー名"

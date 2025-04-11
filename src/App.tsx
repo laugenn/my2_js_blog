@@ -5,6 +5,8 @@ import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 
 import "./App.css";
 import Header from "./components/Header";
+
+import Footer from "./components/Footer";
 import { ContextProvider } from "./contexts/ContentProvider";
 import "./index.css";
 import Edit from "./pages/Edit";
@@ -22,13 +24,26 @@ const routes = [
     element: (
       <>
         <CssBaseline />
-        <Header />
-        <div className="main">
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            minHeight: "100vh",
+          }}
+        >
+          <Header />
           <ContextProvider>
-            <div style={{ marginLeft: "300px" }}>
+            <main
+              style={{
+                display: "flex",
+                height: "100vh",
+                flexDirection: "row",
+              }}
+            >
               <Outlet />
-            </div>
+            </main>
           </ContextProvider>
+          <Footer />
         </div>
       </>
     ),

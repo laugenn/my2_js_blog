@@ -1,7 +1,6 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
 import { useForm } from "react-hook-form";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "../components/logins/Input";
 import SubmitButton from "../components/logins/SubmitButton";
 import { useRePassword } from "../hooks/useFormHandlers";
@@ -29,14 +28,13 @@ const EditProfile: React.FC = () => {
   const { errorMessage, onSubmitRePassword } = useRePassword();
 
   return (
-    <>
+    <div className="login">
       <form
-        style={{ marginTop: "100px" }}
         onSubmit={form.handleSubmit((data) => {
           onSubmitRePassword(data);
         })}
       >
-        <div className="login-wrapper">
+        <div className="position-center">
           <h2>パスワード変更画面</h2>
           <Input
             labelName="ユーザー名"
@@ -72,7 +70,7 @@ const EditProfile: React.FC = () => {
           {errorMessage && <p className="error">{errorMessage}</p>}
         </div>
       </form>
-    </>
+    </div>
   );
 };
 

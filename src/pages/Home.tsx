@@ -11,7 +11,15 @@ const Home: React.FC = () => {
   return (
     <>
       <SideBar />
-      <Outlet />
+      <section
+        style={{
+          flex: 7,
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        <Outlet />
+      </section>
     </>
   );
 };

@@ -114,7 +114,7 @@ const Edit: React.FC = () => {
       {!hasEditID ? (
         <p>{errorMessage}</p>
       ) : (
-        <div className="form">
+        <div>
           <form
             onSubmit={handleSubmit((data) => {
               onSubmit(data, selectedFile, editID, createdFileName);
@@ -154,7 +154,6 @@ const Edit: React.FC = () => {
 
             {/* コメント  */}
             <InputContentComment
-              marginTop="300px"
               register={register}
               errors={errors}
             />

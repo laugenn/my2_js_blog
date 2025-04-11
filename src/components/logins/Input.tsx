@@ -1,5 +1,5 @@
-import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 import React from "react";
+import { FieldError, UseFormRegisterReturn } from "react-hook-form";
 
 interface InputLoginProps {
   labelName: string;
@@ -23,6 +23,15 @@ interface InputLoginProps {
 const InputLogin: React.FC<InputLoginProps> = (props) => {
   return (
     <div className="login-box">
+      <label>
+        {props.labelName}：
+        <input
+          type={props.type}
+          placeholder={props.placeholder}
+          className="login-input"
+          {...props.register}
+        />
+      </label>
       {props.labelName == "パスワード" && !props.errors?.message && (
         <span className="info-icon">
           ?
@@ -31,14 +40,6 @@ const InputLogin: React.FC<InputLoginProps> = (props) => {
           </span>
         </span>
       )}
-
-      <label>{props.labelName}：</label>
-      <input
-        type={props.type}
-        placeholder={props.placeholder}
-        className="login-input"
-        {...props.register}
-      />
 
       {props.errors?.message && (
         <p className="login-error-message">{props.errors?.message}</p>

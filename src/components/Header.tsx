@@ -1,6 +1,3 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import React from "react";
 
 /**
@@ -8,23 +5,7 @@ import React from "react";
  * @returns {JSX.Element}
  */
 const Header: React.FC = () => {
-  return (
-    <AppBar
-      position="fixed"
-      sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      color="info"
-    >
-      <Toolbar>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-        >
-          投稿練習
-        </Typography>
-      </Toolbar>
-    </AppBar>
-  );
+  return <header className="header">Header</header>;
 };
 
 export default Header;

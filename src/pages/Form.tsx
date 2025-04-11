@@ -86,8 +86,6 @@ const Form: React.FC = () => {
     createdFileName,
     setCreatedFileName,
   } = useFormHandlers(setValue, resetField, selectedFile, setSelectedFile);
-  // プレビューの場合、スタイル変更
-  const textareaMarginTop: string = isClickPreview ? "300px" : "30px";
 
   return (
     <div className="form">
@@ -132,7 +130,6 @@ const Form: React.FC = () => {
 
         {/* コメント  */}
         <InputContentComment
-          marginTop={textareaMarginTop}
           register={register}
           errors={errors}
         />

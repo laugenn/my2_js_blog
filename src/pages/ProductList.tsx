@@ -103,7 +103,7 @@ const ProductList: React.FC = () => {
 
   return (
     <>
-      <div className="search">
+      <div className="content-container">
         <h3>検索</h3>
         <input
           type="text"
@@ -114,8 +114,16 @@ const ProductList: React.FC = () => {
         ></input>
       </div>
 
-      <div className="result">
+      <div className="content-container">
         <h3>登録されているコンテンツ一覧</h3>
+      </div>
+      <div
+        style={{
+          flex: 9,
+          overflowY: "auto",
+          padding: "1rem",
+        }}
+      >
         <Grid
           container
           spacing={6}

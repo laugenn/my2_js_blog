@@ -1,10 +1,9 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
 import React from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 import { Inputs } from "../../pages/Form";
 
 interface InputContentCommentProps {
-  marginTop: string;
   register: UseFormRegister<Inputs>;
   errors: FieldErrors<Inputs>;
 }
@@ -13,7 +12,6 @@ interface InputContentCommentProps {
  * コメント入力欄
  *
  * @param {Object} props: InputContentCommentProps
- * @param {string} props.marginTop: 画像の押下した際に余白を変更
  * @param {UseFormRegister<Inputs>} props.register: useForm戻り値
  * @param {FieldErrors<Inputs>} props.errors: useForm戻り値
  * @returns {JSX.Element}
@@ -21,7 +19,7 @@ interface InputContentCommentProps {
 const InputContentComment: React.FC<InputContentCommentProps> = (props) => {
   return (
     <>
-      <div style={{ marginTop: props.marginTop }}>
+      <div>
         <label>
           コメント<span className="required">*</span>：
         </label>
